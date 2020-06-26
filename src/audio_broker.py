@@ -8,17 +8,17 @@ class AudioBroker:
     def __init__(self):
         print("loading main...")
         self._fs = 44100
-        self._seconds = 100  # maximum seconds of recording
+        self._seconds = 400  # maximum seconds of recording
         self._audio = []
         self._start = 0
         self._end = 0
 
-    def start_recording(self, instance):
+    def start_recording(self):
         print('commencing recording...')
         self._start = time.time()
         self._audio = sd.rec(int(self._seconds * self._fs), samplerate=self._fs, channels=2)
 
-    def end_recording(self, instance):
+    def end_recording(self):
         sd.stop()
         self._end = time.time()
         print('completed')

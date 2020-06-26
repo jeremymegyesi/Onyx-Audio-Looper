@@ -17,14 +17,24 @@ class MyGrid(GridLayout):
         self.controlButtons = GridLayout()
         self.controlButtons.cols = 1
         self.record = Button(text="Record Audio")
-        self.record.bind(on_press=self.audio_broker.start_recording)
+        self.record.bind(on_press=self.record_clicked)
         self.controlButtons.add_widget(self.record)
-        self.stop = Button(text="Stop Recording")
-        self.stop.bind(on_press=self.audio_broker.end_recording)
+        self.stop = Button(text="Stop Recording", disabled=True)
+        self.stop.bind(on_press=self.stop_clicked)
         self.controlButtons.add_widget(self.stop)
 
         self.add_widget(self.controlButtons)
         self.add_widget(Label(text="recording1.wav"))
+
+    def record_clicked(self, instance):
+        self.audio_broker.start_recording()
+        self.record.disabled = True
+        self.stop.disabled = False
+
+    def stop_clicked(self, instance):
+        self.audio_broker.end_recording()
+        self.stop.disabled = True
+        self.record.disabled = False
 
 class MyApp(App):
     def build(self):
