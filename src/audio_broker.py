@@ -22,9 +22,9 @@ class AudioBroker:
         sd.stop()
         self._end = time.time()
         print('completed')
-        elapsed = int(self._end - self._start)
+        elapsed = self._end - self._start
         print(elapsed)
-        self._audio = self._audio[:elapsed * self._fs]
+        self._audio = self._audio[:int(elapsed * self._fs)]
         write('output.wav', self._fs, self._audio)
 
     def playback_recording(self, instance):
