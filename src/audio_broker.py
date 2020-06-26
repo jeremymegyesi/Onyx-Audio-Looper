@@ -26,3 +26,6 @@ class AudioBroker:
         print(elapsed)
         self._audio = self._audio[:elapsed * self._fs]
         write('output.wav', self._fs, self._audio)
+
+    def playback_recording(self, instance):
+        sd.play(self._audio, samplerate=self._fs)

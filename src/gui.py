@@ -22,6 +22,9 @@ class MyGrid(GridLayout):
         self.stop = Button(text="Stop Recording", disabled=True)
         self.stop.bind(on_press=self.stop_clicked)
         self.controlButtons.add_widget(self.stop)
+        self.playback = Button(text="Playback")
+        self.playback.bind(on_press=self.audio_broker.playback_recording)
+        self.controlButtons.add_widget(self.playback)
 
         self.add_widget(self.controlButtons)
         self.add_widget(Label(text="recording1.wav"))
