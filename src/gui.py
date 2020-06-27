@@ -6,28 +6,20 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 
 
-class MyGrid(GridLayout):
+class ControlButtons(GridLayout):
     def __init__(self, **kwargs):
+        super(ControlButtons, self).__init__(**kwargs)
         self.audio_broker = ab.AudioBroker()
-
-        super(MyGrid, self).__init__(**kwargs)
-        self.cols = 2  # Set columns for main layout
-
-        # Add controller buttons on left side
-        self.controlButtons = GridLayout()
-        self.controlButtons.cols = 1
-        self.record = Button(text="Record Audio")
+        self.cols = 1
+        self.record = Button(text="Record Audio", background_color=[0, 0.3, 0, 1], background_normal='')
         self.record.bind(on_press=self.record_clicked)
-        self.controlButtons.add_widget(self.record)
-        self.stop = Button(text="Stop Recording", disabled=True)
+        self.add_widget(self.record)
+        self.stop = Button(text="Stop Recording", disabled=True, background_color=[0.3, 0, 0, 1], background_normal='')
         self.stop.bind(on_press=self.stop_clicked)
-        self.controlButtons.add_widget(self.stop)
-        self.playback = Button(text="Playback")
+        self.add_widget(self.stop)
+        self.playback = Button(text="Playback", background_color=[0, 0.2, 0.5, 1], background_normal='')
         self.playback.bind(on_press=self.audio_broker.playback_recording)
-        self.controlButtons.add_widget(self.playback)
-
-        self.add_widget(self.controlButtons)
-        self.add_widget(Label(text="recording1.wav"))
+        self.add_widget(self.playback)
 
     def record_clicked(self, instance):
         self.audio_broker.start_recording()
@@ -39,9 +31,20 @@ class MyGrid(GridLayout):
         self.stop.disabled = True
         self.record.disabled = False
 
+class MainGrid(GridLayout):
+    def __init__(self, **kwargs):
+        super(MainGrid, self).__init__(**kwargs)
+        self.cols = 2  # Set columns for main layout
+
+        # Add controller buttons on left side
+        self.control_buttons = ControlButtons()
+
+        self.add_widget(self.control_buttons)
+        self.add_widget(Label(text="recording1.wav"))
+
 class MyApp(App):
     def build(self):
-        return MyGrid()
+        return MainGrid()
 
 
 if __name__ == "__main__":
