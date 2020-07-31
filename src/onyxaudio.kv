@@ -1,5 +1,6 @@
 <MainGrid>
     my_controls: my_controls
+    recordings_view: recordings_view
 
     FloatLayout:
         cols:2
@@ -8,8 +9,26 @@
         ControlButtons:
             id: my_controls
 
-        Label:
-            text:"recording1.wav"
+        GridLayout:
+            size_hint: (0.6, 1)
+            pos_hint: {"x": 0.4}
+            cols: 1
+
+            Label:
+                size_hint: (1, 0.1)
+                text: "My Recordings"
+
+            ScrollView:
+                id: recordings_view
+                my_gl: my_gl
+
+                GridLayout:
+                    id: my_gl
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    size_hint_x: None
+                    width: root.recordings_view.width
 
 
 <ControlButtons>

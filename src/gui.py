@@ -25,9 +25,26 @@ class ControlButtons(Widget):
         self.record_button.disabled = False
 
 
+class RecordingView(Widget):
+    def __init__(self, grid, **kwargs):
+        super(RecordingView, self).__init__(**kwargs)
+        self.parent = grid
+        self.audio_broker = self.parent.my_controls.audio_broker
+
+    def add_button(self, name, path):
+        btn = Button(text=name, height=50, size_hint_y=None)
+        btn.bind(on_press=self.on_press)
+        self.parent.recordings_view.my_gl.add_widget(btn)
+
+    def on_press(self, instance):
+        self.audio_broker.playback_recording(instance.text)
+
+
 class MainGrid(Widget):
     def __init__(self, **kwargs):
         super(MainGrid, self).__init__(**kwargs)
+        self.recording_view = RecordingView(self)
+        self.my_controls.audio_broker.recording_view = self.recording_view
 
 
 class OnyxAudioApp(App):
