@@ -3,6 +3,10 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
+from kivy.lang import Builder
+
+
+Builder.load_file('onyx_ui/main_grid.kv')
 
 
 class ControlButtons(Widget):
@@ -42,6 +46,7 @@ class RecordingView(Widget):
 
 class MainGrid(Widget):
     def __init__(self, **kwargs):
+        Builder.load_file('onyx_ui/control_buttons.kv')
         super(MainGrid, self).__init__(**kwargs)
         self.recording_view = RecordingView(self)
         self.my_controls.audio_broker.recording_view = self.recording_view
