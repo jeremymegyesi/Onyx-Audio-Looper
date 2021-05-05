@@ -1,4 +1,5 @@
 import src.audio_broker as ab
+import src.button_state as bs
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
@@ -32,15 +33,24 @@ class ControlButtons(Widget):
 class RecordingView(Widget):
     def __init__(self, grid, **kwargs):
         super(RecordingView, self).__init__(**kwargs)
+        self._buttons = {}
         self.parent = grid
         self.audio_broker = self.parent.my_controls.audio_broker
 
     def add_button(self, name, path):
         btn = Button(text=name, height=50, size_hint_y=None)
+        btn_state = bs.ButtonState(btn)
+        self._buttons[name] = btn_state
         btn.bind(on_press=self.on_press)
         self.parent.recordings_view.my_gl.add_widget(btn)
 
     def on_press(self, instance):
+        btn_state = self._buttons[instance.text]
+        if btn_state.is_playing:
+            btn_state.button.background_color = 1, 1, 1, 1
+        else:
+            btn_state.button.background_color = [1, 1, 1, 0.6]
+        btn_state.is_playing = not btn_state.is_playing
         self.audio_broker.playback_recording(instance.text)
 
 
